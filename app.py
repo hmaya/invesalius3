@@ -25,7 +25,7 @@ import os
 import sys
 import shutil
 import traceback
-
+import ConfigParser
 import re
 
 if sys.platform == 'win32':
@@ -42,7 +42,7 @@ import wx
 from wx.lib.pubsub import setuparg1# as psv1
 #from wx.lib.pubsub import Publisher 
 #import wx.lib.pubsub as ps
-from wx.lib.pubsub import pub as Publisher
+from wx.lib.pubsub import pub #as Publisher
 
 #import wx.lib.agw.advancedsplash as agw
 #if sys.platform == 'linux2':
@@ -73,6 +73,7 @@ USER_PRESET_DIR = os.path.join(USER_INV_DIR, u'presets')
 USER_RAYCASTING_PRESETS_DIRECTORY = os.path.join(USER_PRESET_DIR, u'raycasting')
 USER_LOG_DIR = os.path.join(USER_INV_DIR, u'logs')
 
+CONFIG_DIR = ''
 # ------------------------------------------------------------------
 
 
@@ -100,7 +101,7 @@ class InVesalius(wx.App):
         Open drag & drop files under darwin
         """
         path = os.path.abspath(filename)
-        Publisher.sendMessage('Open project', path)
+        pub.sendMessage('Open project', pubsub_evt=path)
 
     def Startup2(self):
         self.control = self.splash.control
@@ -251,7 +252,7 @@ class SplashScreen(wx.SplashScreen):
 
 def non_gui_startup(options, args):
     lang = 'en'
-    _ = i18n.InstallLanguage(lang)
+    #_ = i18n.InstallLanguage(lang)
 
     from invesalius.control import Controller
     from invesalius.project import Project
@@ -259,7 +260,7 @@ def non_gui_startup(options, args):
     session = ses.Session()
     if not session.ReadSession():
         session.CreateItens()
-        session.SetLanguage(lang)
+        #session.SetLanguage(lang)
         session.WriteSessionFile()
 
     control = Controller(None)
@@ -278,6 +279,9 @@ def parse_comand_line():
 
     # Parse command line arguments
     parser = op.OptionParser()
+
+    parser.add_option("-c","--config",
+                      action="store")
 
     # -d or --debug: print all pubsub messagessent
     parser.add_option("-d", "--debug",
@@ -314,19 +318,20 @@ def parse_comand_line():
 
 
 def use_cmd_optargs(options, args):
+
     # If debug argument...
     if options.debug:
-        Publisher.subscribe(print_events, Publisher.ALL_TOPICS)
+        pub.subscribe(print_events, pub.ALL_TOPICS)
         session = ses.Session()
         session.debug = 1
 
     # If import DICOM argument...
     if options.dicom_dir:
         import_dir = options.dicom_dir
-        Publisher.sendMessage('Import directory', {'directory': import_dir, 'gui': not options.no_gui})
+        pub.sendMessage(('Import directory'), {'directory': import_dir, 'gui': not options.no_gui})
 
         if options.save:
-            Publisher.sendMessage('Save project', os.path.abspath(options.save))
+            pub.sendMessage(('Save project'), os.path.abspath(options.save))
             exit(0)
 
         check_for_export(options)
@@ -334,11 +339,12 @@ def use_cmd_optargs(options, args):
         return True
     elif options.import_all:
         import invesalius.reader.dicom_reader as dcm
+        uiModeValue = not options.no_gui
         for patient in dcm.GetDicomGroups(options.import_all):
             for group in patient.GetGroups():
-                Publisher.sendMessage('Import group', {'group': group, 'gui': not options.no_gui})
+                pub.sendMessage(('Import group'), {'group': group, 'gui': uiModeValue})
                 check_for_export(options, suffix=group.title, remove_surfaces=False)
-                Publisher.sendMessage('Remove masks', [0])
+                pub.sendMessage(('Remove masks'), [0])
         return True
 
     # Check if there is a file path somewhere in what the user wrote
@@ -348,14 +354,14 @@ def use_cmd_optargs(options, args):
             file = arg.decode(sys.stdin.encoding)
             if os.path.isfile(file):
                 path = os.path.abspath(file)
-                Publisher.sendMessage('Open project', path)
+                pub.sendMessage('Open project', path)
                 check_for_export(options)
                 return True
 
             file = arg.decode(FS_ENCODE)
             if os.path.isfile(file):
                 path = os.path.abspath(file)
-                Publisher.sendMessage('Open project', path)
+                pub.sendMessage('Open project', path)
                 check_for_export(options)
                 return True
 
@@ -403,7 +409,7 @@ def check_for_export(options, suffix='', remove_surfaces=False):
 def export(path_, threshold_range, remove_surface=False):
     import invesalius.constants as const
 
-    Publisher.sendMessage('Set threshold values', threshold_range)
+    pub.sendMessage('Set threshold values', threshold_range)
 
     surface_options = {
         'method': {
@@ -412,16 +418,16 @@ def export(path_, threshold_range, remove_surface=False):
         }, 'options': {
             'index': 0,
             'name': '',
-            'quality': _('Optimal *'),
+            'quality': 'Optimal *',
             'fill': False,
             'keep_largest': False,
             'overwrite': False,
         }
     }
-    Publisher.sendMessage('Create surface from index', surface_options)
-    Publisher.sendMessage('Export surface to file', (path_, const.FILETYPE_STL))
+    pub.sendMessage(('Create surface from index'), surface_options)
+    pub.sendMessage(('Export surface to file'), (path_, const.FILETYPE_STL))
     if remove_surface:
-        Publisher.sendMessage('Remove surfaces', [0])
+        pub.sendMessage(('Remove surfaces'), [0])
 
 
 def print_events(data):
@@ -430,12 +436,47 @@ def print_events(data):
     """
     utils.debug(data.topic)
 
+
 def main():
     """
     Initialize InVesalius GUI
     """
     options, args = parse_comand_line()
+    if options.config:
+        CONFIG_DIR = options.config
 
+    sys.path=['.', CONFIG_DIR+'app', 
+                CONFIG_DIR+'Python27',
+                CONFIG_DIR+'Python27\\DLLs',
+                CONFIG_DIR+'Python27\\Lib',
+                CONFIG_DIR+'Python27\\Lib\\site-packages',
+                CONFIG_DIR+'Python27\Scripts',
+                CONFIG_DIR+'Python27\\Lib\site-packages\gdcm',
+                CONFIG_DIR+'Python27\\Lib\\site-packages\\python_ca_smoothing',
+                CONFIG_DIR+'Python27\\Lib\\site-packages\\vtk',
+                CONFIG_DIR+'Python27\\Lib\\site-packages\\wx-3.0-msw']
+
+    config_file_path = CONFIG_DIR + 'config.ini'
+
+    cf = ConfigParser.ConfigParser()
+    cf.read(config_file_path)
+    uiMode = cf.get("config", "uiMode")
+    if uiMode == 'no-gui':
+        options.no_gui = True
+
+    importMode = cf.get("config", "importMode")
+    inPath = cf.get("config", "inPath")
+    if importMode == 'import-all':
+        options.import_all = inPath
+
+    threshold = cf.get("config", "threshold")
+    options.threshold = threshold
+
+    exportMode = cf.get("config", "exportMode")
+    outPath = cf.get("config", "outPath")
+    if exportMode=='export' :
+        options.export = outPath
+    
     if options.no_gui:
         non_gui_startup(options, args)
     else:
@@ -445,7 +486,7 @@ def main():
 if __name__ == '__main__':
     #Is needed because of pyinstaller
     multiprocessing.freeze_support()
-    
+
     #Needed in win 32 exe
     if hasattr(sys,"frozen") and sys.platform.startswith('win'):
 

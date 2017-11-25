@@ -272,7 +272,7 @@ class SurfaceManager():
         elif filename.lower().endswith('.vtp'):
             reader = vtk.vtkXMLPolyDataReader()
         else:
-            wx.MessageBox(_("File format not reconized by InVesalius"), _("Import surface error"))
+            wx.MessageBox("File format not reconized by InVesalius", "Import surface error")
             return
 
         if _has_win32api:
@@ -284,7 +284,7 @@ class SurfaceManager():
         polydata = reader.GetOutput()
 
         if polydata.GetNumberOfPoints() == 0:
-            wx.MessageBox(_("InVesalius was not able to import this surface"), _("Import surface error"))
+            wx.MessageBox("InVesalius was not able to import this surface", "Import surface error")
         else:
             name = os.path.splitext(os.path.split(filename)[-1])[0]
             self.CreateSurfaceFromPolydata(polydata, name=name)
@@ -431,7 +431,7 @@ class SurfaceManager():
             Publisher.sendMessage('Load surface actor into viewer', (actor))
 
             Publisher.sendMessage('Update status text in GUI',
-                                        _("Ready"))
+                                        "Ready")
 
             # The following lines have to be here, otherwise all volumes disappear
             Publisher.sendMessage('Update surface info in GUI',
@@ -492,7 +492,7 @@ class SurfaceManager():
 
         ## Update progress value in GUI
         UpdateProgress = vu.ShowProgress(pipeline_size)
-        UpdateProgress(0, _("Creating 3D surface..."))
+        UpdateProgress(0, "Creating 3D surface...")
 
         language = ses.Session().language
 
@@ -583,7 +583,7 @@ class SurfaceManager():
             normals = vtk.vtkPolyDataNormals()
             normals_ref = weakref.ref(normals)
             normals_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                                      UpdateProgress(normals_ref(), _("Creating 3D surface...")))
+                                      UpdateProgress(normals_ref(), "Creating 3D surface..."))
             normals.SetInputData(polydata)
             #  normals.ReleaseDataFlagOn()
             #normals.SetFeatureAngle(80)
@@ -601,7 +601,7 @@ class SurfaceManager():
             #  clean.GetOutput().ReleaseDataFlagOn()
             clean_ref = weakref.ref(clean)
             clean_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                            UpdateProgress(clean_ref(), _("Creating 3D surface...")))
+                            UpdateProgress(clean_ref(), "Creating 3D surface..."))
             clean.SetInputData(polydata)
             clean.PointMergingOn()
             clean.Update()
@@ -634,7 +634,7 @@ class SurfaceManager():
             smoother = vtk.vtkSmoothPolyDataFilter()
             smoother_ref = weakref.ref(smoother)
             smoother_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                            UpdateProgress(smoother_ref(), _("Creating 3D surface...")))
+                            UpdateProgress(smoother_ref(), "Creating 3D surface..."))
             smoother.SetInputData(polydata)
             smoother.SetNumberOfIterations(smooth_iterations)
             smoother.SetRelaxationFactor(smooth_relaxation_factor)
@@ -663,7 +663,7 @@ class SurfaceManager():
             decimation.SetTargetReduction(decimate_reduction)
             decimation_ref = weakref.ref(decimation)
             decimation_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                            UpdateProgress(decimation_ref(), _("Creating 3D surface...")))
+                            UpdateProgress(decimation_ref(), "Creating 3D surface..."))
             #decimation.PreserveTopologyOn()
             #decimation.SplittingOff()
             #decimation.BoundaryVertexDeletionOff()
@@ -684,7 +684,7 @@ class SurfaceManager():
             conn.SetExtractionModeToLargestRegion()
             conn_ref = weakref.ref(conn)
             conn_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                    UpdateProgress(conn_ref(), _("Creating 3D surface...")))
+                    UpdateProgress(conn_ref(), "Creating 3D surface..."))
             conn.Update()
             #  conn.GetOutput().ReleaseDataFlagOn()
             del polydata
@@ -703,7 +703,7 @@ class SurfaceManager():
             filled_polydata.SetHoleSize(300)
             filled_polydata_ref = weakref.ref(filled_polydata)
             filled_polydata_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                    UpdateProgress(filled_polydata_ref(), _("Creating 3D surface...")))
+                    UpdateProgress(filled_polydata_ref(), "Creating 3D surface..."))
             filled_polydata.Update()
             #  filled_polydata.GetOutput().ReleaseDataFlagOn()
             del polydata
@@ -736,7 +736,7 @@ class SurfaceManager():
             #  normals.ReleaseDataFlagOn()
             normals_ref = weakref.ref(normals)
             normals_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                            UpdateProgress(normals_ref(), _("Creating 3D surface...")))
+                            UpdateProgress(normals_ref(), "Creating 3D surface..."))
             normals.SetInputData(polydata)
             normals.SetFeatureAngle(80)
             normals.AutoOrientNormalsOn()
@@ -753,7 +753,7 @@ class SurfaceManager():
             #  stripper.ReleaseDataFlagOn()
             stripper_ref = weakref.ref(stripper)
             stripper_ref().AddObserver("ProgressEvent", lambda obj,evt:
-                            UpdateProgress(stripper_ref(), _("Creating 3D surface...")))
+                            UpdateProgress(stripper_ref(), "Creating 3D surface..."))
             stripper.SetInputData(polydata)
             stripper.PassThroughCellIdsOn()
             stripper.PassThroughPointIdsOn()
@@ -835,8 +835,8 @@ class SurfaceManager():
 
             #When you finalize the progress. The bar is cleaned.
             UpdateProgress = vu.ShowProgress(1)
-            UpdateProgress(0, _("Ready"))
-            Publisher.sendMessage('Update status text in GUI', _("Ready"))
+            UpdateProgress(0, "Ready")
+            Publisher.sendMessage('Update status text in GUI', "Ready")
 
             Publisher.sendMessage('End busy cursor')
             del actor

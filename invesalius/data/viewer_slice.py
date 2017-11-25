@@ -27,7 +27,7 @@ import tempfile
 import numpy as np
 
 import vtk
-from vtk.wx.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
+from vtk.wxVTK.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
 
 import invesalius.data.styles as styles
 import wx

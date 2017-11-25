@@ -1,7 +1,7 @@
 import numpy as np
 cimport numpy as np
 cimport cython
-
+import interpolation
 from .cy_my_types cimport image_t
 from .interpolation cimport interpolate, tricub_interpolate, tricubicInterpolate, lanczos3, nearest_neighbour_interp
 

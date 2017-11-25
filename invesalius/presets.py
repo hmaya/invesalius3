@@ -29,39 +29,39 @@ class Presets():
 
     def __init__(self):
         self.thresh_ct = TwoWaysDictionary({
-            _("Bone"):(226,3071),
-            _("Soft Tissue"):(-700,225),
-            _("Enamel (Adult)"):(1553,2850),
-            _("Enamel (Child)"):(2042,3071),
-            _("Compact Bone (Adult)"):(662,1988),
-            _("Compact Bone (Child)"):(586,2198),
-            _("Spongial Bone (Adult)"):(148,661),
-            _("Spongial Bone (Child)"):(156,585),
-            _("Muscle Tissue (Adult)"):(-5,135),
-            _("Muscle Tissue (Child)"):(-25,139),
-            _("Fat Tissue (Adult)"):(-205,-51),
-            _("Fat Tissue (Child)"):(-212,-72),
-            _("Skin Tissue (Adult)"):(-718,-177),
-            _("Skin Tissue (Child)"):(-766,-202), 
-            _("Custom"):('', '')
+            "Bone":(226,3071),
+            "Soft Tissue":(-700,225),
+            "Enamel (Adult)":(1553,2850),
+            "Enamel (Child)":(2042,3071),
+            "Compact Bone (Adult)":(662,1988),
+            "Compact Bone (Child)":(586,2198),
+            "Spongial Bone (Adult)":(148,661),
+            "Spongial Bone (Child)":(156,585),
+            "Muscle Tissue (Adult)":(-5,135),
+            "Muscle Tissue (Child)":(-25,139),
+            "Fat Tissue (Adult)":(-205,-51),
+            "Fat Tissue (Child)":(-212,-72),
+            "Skin Tissue (Adult)":(-718,-177),
+            "Skin Tissue (Child)":(-766,-202), 
+            "Custom":('', '')
         })
 
         self.thresh_mri = TwoWaysDictionary({
-            _("Bone"):(1250,4095),
-            _("Soft Tissue"):(324,1249),
-            _("Enamel (Adult)"):(2577,3874),
-            _("Enamel (Child)"):(3066,4095),
-            _("Compact Bone (Adult)"):(1686,3012),
-            _("Compact Bone (Child)"):(1610,3222),
-            _("Spongial Bone (Adult)"):(1172,1685),
-            _("Spongial Bone (Child)"):(1180,1609),
-            _("Muscle Tissue (Adult)"):(1019,1159),
-            _("Muscle Tissue (Child)"):(999,1163),
-            _("Fat Tissue (Adult)"):(819,973),
-            _("Fat Tissue (Child)"):(812,952),
-            _("Skin Tissue (Adult)"):(306,847),
-            _("Skin Tissue (Child)"):(258,822), 
-            _("Custom"):('', '')
+            "Bone":(1250,4095),
+            "Soft Tissue":(324,1249),
+            "Enamel (Adult)":(2577,3874),
+            "Enamel (Child)":(3066,4095),
+            "Compact Bone (Adult)":(1686,3012),
+            "Compact Bone (Child)":(1610,3222),
+            "Spongial Bone (Adult)":(1172,1685),
+            "Spongial Bone (Child)":(1180,1609),
+            "Muscle Tissue (Adult)":(1019,1159),
+            "Muscle Tissue (Child)":(999,1163),
+            "Fat Tissue (Adult)":(819,973),
+            "Fat Tissue (Child)":(812,952),
+            "Skin Tissue (Adult)":(306,847),
+            "Skin Tissue (Child)":(258,822), 
+            "Custom":('', '')
         })
         self.__bind_events()
         
@@ -103,21 +103,21 @@ class Presets():
         filename = "%s$%s" % (filename, 'presets.plist')
         preset = {}
         
-        translate_to_en = {_("Bone"):"Bone",
-                _("Soft Tissue"):"Soft Tissue",
-                _("Enamel (Adult)"):"Enamel (Adult)",
-                _("Enamel (Child)"): "Enamel (Child)",
-                _("Compact Bone (Adult)"):"Compact Bone (Adult)",
-                _("Compact Bone (Child)"):"Compact Bone (Child)",
-                _("Spongial Bone (Adult)"):"Spongial Bone (Adult)",
-                _("Spongial Bone (Child)"):"Spongial Bone (Child)",
-                _("Muscle Tissue (Adult)"):"Muscle Tissue (Adult)",
-                _("Muscle Tissue (Child)"):"Muscle Tissue (Child)",
-                _("Fat Tissue (Adult)"):"Fat Tissue (Adult)",
-                _("Fat Tissue (Child)"):"Fat Tissue (Child)",
-                _("Skin Tissue (Adult)"):"Skin Tissue (Adult)",
-                _("Skin Tissue (Child)"):"Skin Tissue (Child)", 
-                _("Custom"):"Custom"}
+        translate_to_en = {"Bone":"Bone",
+                "Soft Tissue":"Soft Tissue",
+                "Enamel (Adult)":"Enamel (Adult)",
+                "Enamel (Child)": "Enamel (Child)",
+                "Compact Bone (Adult)":"Compact Bone (Adult)",
+                "Compact Bone (Child)":"Compact Bone (Child)",
+                "Spongial Bone (Adult)":"Spongial Bone (Adult)",
+                "Spongial Bone (Child)":"Spongial Bone (Child)",
+                "Muscle Tissue (Adult)":"Muscle Tissue (Adult)",
+                "Muscle Tissue (Child)":"Muscle Tissue (Child)",
+                "Fat Tissue (Adult)":"Fat Tissue (Adult)",
+                "Fat Tissue (Child)":"Fat Tissue (Child)",
+                "Skin Tissue (Adult)":"Skin Tissue (Adult)",
+                "Skin Tissue (Child)":"Skin Tissue (Child)", 
+                "Custom":"Custom"}
 
         thresh_mri_new = {}
         for name in self.thresh_mri.keys():
@@ -134,21 +134,21 @@ class Presets():
 
     def OpenPlist(self, filename):
 
-        translate_to_x = {"Bone":_("Bone"),
-                "Soft Tissue":_("Soft Tissue"),
-                "Enamel (Adult)":_("Enamel (Adult)"),
-                "Enamel (Child)": _("Enamel (Child)"),
-                "Compact Bone (Adult)": _("Compact Bone (Adult)"),
-                "Compact Bone (Child)":_("Compact Bone (Child)"),
-                "Spongial Bone (Adult)":_("Spongial Bone (Adult)"),
-                "Spongial Bone (Child)":_("Spongial Bone (Child)"),
-                "Muscle Tissue (Adult)":_("Muscle Tissue (Adult)"),
-                "Muscle Tissue (Child)":_("Muscle Tissue (Child)"),
-                "Fat Tissue (Adult)":_("Fat Tissue (Adult)"),
-                "Fat Tissue (Child)":_("Fat Tissue (Child)"),
-                "Skin Tissue (Adult)":_("Skin Tissue (Adult)"),
-                "Skin Tissue (Child)":_("Skin Tissue (Child)"), 
-                "Custom":_("Custom")}
+        translate_to_x = {"Bone":"Bone",
+                "Soft Tissue":"Soft Tissue",
+                "Enamel (Adult)":"Enamel (Adult)",
+                "Enamel (Child)": "Enamel (Child)",
+                "Compact Bone (Adult)": "Compact Bone (Adult)",
+                "Compact Bone (Child)":"Compact Bone (Child)",
+                "Spongial Bone (Adult)":"Spongial Bone (Adult)",
+                "Spongial Bone (Child)":"Spongial Bone (Child)",
+                "Muscle Tissue (Adult)":"Muscle Tissue (Adult)",
+                "Muscle Tissue (Child)":"Muscle Tissue (Child)",
+                "Fat Tissue (Adult)":"Fat Tissue (Adult)",
+                "Fat Tissue (Child)":"Fat Tissue (Child)",
+                "Skin Tissue (Adult)":"Skin Tissue (Adult)",
+                "Skin Tissue (Child)":"Skin Tissue (Child)", 
+                "Custom":"Custom"}
 
 
         p = plistlib.readPlist(filename)

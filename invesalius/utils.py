@@ -26,6 +26,8 @@ import math
 from distutils.version import LooseVersion
 
 import numpy as np
+import numpy.core._methods
+import numpy.lib.format
 
 def format_time(value):
     sp1 = value.split(".")

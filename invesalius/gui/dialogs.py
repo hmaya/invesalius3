@@ -26,7 +26,7 @@ import vtk
 import wx
 import wx.combo
 
-from vtk.wx.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
+from vtk.wxVTK.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
 from wx.lib import masked
 from wx.lib.agw import floatspin
 from wx.lib.wordwrap import wordwrap
@@ -175,7 +175,7 @@ def ShowNumberDialog(message, value=0):
 class ProgressDialog(object):
     def __init__(self, maximum, abort=False):
         self.title = "InVesalius 3"
-        self.msg = _("Loading DICOM files")
+        self.msg = "Loading DICOM files"
         self.maximum = maximum
         self.current = 0
         self.style = wx.PD_APP_MODAL
@@ -1327,7 +1327,7 @@ class SurfaceDialog(wx.Dialog):
 
 ####################### New surface creation dialog ###########################
 class SurfaceCreationDialog(wx.Dialog):
-    def __init__(self, parent=None, ID=-1, title=_(u"Surface creation"),
+    def __init__(self, parent=None, ID=-1, title=u"Surface creation",
                  size=wx.DefaultSize, pos=wx.DefaultPosition,
                  style=wx.DEFAULT_DIALOG_STYLE, useMetal=False,
                  mask_edited=False):

@@ -26,7 +26,7 @@ import numpy
 import vtk
 import vtkgdcm
 from wx.lib.pubsub import pub as Publisher
-
+import scipy
 from scipy.ndimage import shift
 from vtk.util import numpy_support
 
@@ -522,7 +522,7 @@ def dcm2memmap(files, slice_size, orientation, resolution_percentage):
     From a list of dicom files it creates memmap file in the temp folder and
     returns it and its related filename.
     """
-    message = _("Generating multiplanar visualization...")
+    message = "Generating multiplanar visualization..."
     update_progress= vtk_utils.ShowProgress(len(files) - 1, dialog_type = "ProgressDialog")
 
     temp_file = tempfile.mktemp()

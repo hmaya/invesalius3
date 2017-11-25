@@ -27,7 +27,7 @@ import numpy as np
 from numpy.core.umath_tests import inner1d
 import wx
 import vtk
-from vtk.wx.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
+from vtk.wxVTK.wxVTKRenderWindowInteractor import wxVTKRenderWindowInteractor
 from wx.lib.pubsub import pub as Publisher
 
 import invesalius.constants as const

@@ -14,14 +14,14 @@ import invesalius.constants as const
 import invesalius.project as prj
 import invesalius.session as ses
 import invesalius.utils as utils
-TYPE = {const.LINEAR: _(u"Linear"),
-        const.ANGULAR: _(u"Angular"),
+TYPE = {const.LINEAR: u"Linear",
+        const.ANGULAR: u"Angular",
         }
 
-LOCATION = {const.SURFACE: _(u"3D"),
-            const.AXIAL: _(u"Axial"),
-            const.CORONAL: _(u"Coronal"),
-            const.SAGITAL: _(u"Sagittal")
+LOCATION = {const.SURFACE: u"3D",
+            const.AXIAL: u"Axial",
+            const.CORONAL: u"Coronal",
+            const.SAGITAL: u"Sagittal"
         }
 
 map_locations_id = {
